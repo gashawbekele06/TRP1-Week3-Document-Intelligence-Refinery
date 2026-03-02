@@ -68,6 +68,11 @@ class ProvenanceItem(BaseModel):
     content_hash: str
 
 
+class ProvenanceChain(BaseModel):
+    citations: List[ProvenanceItem]
+
+
+
 class PageIndexNode(BaseModel):
     title: str
     page_start: int

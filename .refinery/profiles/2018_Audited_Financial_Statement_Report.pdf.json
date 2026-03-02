@@ -1,0 +1,16 @@
+{
+  "doc_id": "2018_Audited_Financial_Statement_Report.pdf",
+  "origin_type": "scanned_image",
+  "layout_complexity": "single_column",
+  "language": null,
+  "language_confidence": null,
+  "domain_hint": "general",
+  "estimated_extraction_cost": "needs_layout_model",
+  "signals": {
+    "total_pages": 3,
+    "avg_chars_per_page": 0.0,
+    "image_area_ratio": 1.0,
+    "median_columns": 1,
+    "table_count": 0
+  }
+}

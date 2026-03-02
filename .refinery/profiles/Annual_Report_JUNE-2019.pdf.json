@@ -1,0 +1,16 @@
+{
+  "doc_id": "Annual_Report_JUNE-2019.pdf",
+  "origin_type": "mixed",
+  "layout_complexity": "table_heavy",
+  "language": "en",
+  "language_confidence": 0.8,
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "needs_layout_model",
+  "signals": {
+    "total_pages": 32,
+    "avg_chars_per_page": 954.125,
+    "image_area_ratio": 0.6749838390319881,
+    "median_columns": 1,
+    "table_count": 5
+  }
+}

@@ -25,10 +25,36 @@ class FastTextExtractor:
             for i, p in enumerate(pdf.pages, start=1):
                 text = p.extract_text() or ""
                 total_chars += len(text)
-                for w in p.extract_words():
-                    bbox = BoundingBox(x0=w.get("x0", 0), top=w.get("top", 0), x1=w.get("x1", 0), bottom=w.get("bottom", 0))
-                    tb = TextBlock(text=w.get("text", ""), bbox=bbox, page_number=i)
-                    doc.text_blocks.append(tb)
+                # Build paragraph-level text blocks using pdfplumber's extract_text with splitting on double newlines
+                if text:
+                    paras = [p_.strip() for p_ in text.split('\n\n') if p_.strip()]
+                    words = p.extract_words()
+                    # approximate bbox for each paragraph by union of words belonging to it
+                    wi = 0
+                    for para in paras:
+                        # determine number of words in para to assign bbox
+                        nwords = min(len(para.split()), max(1, len(words) // max(1, len(paras))))
+                        if words:
+                            wset = words[wi:wi + nwords]
+                        else:
+                            wset = []
+                        wi += nwords
+                        if wset:
+                            x0 = min([w.get('x0', 0) for w in wset])
+                            top = min([w.get('top', 0) for w in wset])
+                            x1 = max([w.get('x1', 0) for w in wset])
+                            bottom = max([w.get('bottom', 0) for w in wset])
+                            bbox = BoundingBox(x0=x0, top=top, x1=x1, bottom=bottom)
+                        else:
+                            bbox = BoundingBox(x0=0, top=0, x1=p.width, bottom=p.height)
+                        tb = TextBlock(text=para, bbox=bbox, page_number=i)
+                        doc.text_blocks.append(tb)
+                else:
+                    # try to extract words even if extract_text failed
+                    for w in p.extract_words():
+                        bbox = BoundingBox(x0=w.get("x0", 0), top=w.get("top", 0), x1=w.get("x1", 0), bottom=w.get("bottom", 0))
+                        tb = TextBlock(text=w.get("text", ""), bbox=bbox, page_number=i)
+                        doc.text_blocks.append(tb)
                 try:
                     found_tables = p.extract_tables()
                     for t in found_tables or []:
@@ -42,14 +68,19 @@ class FastTextExtractor:
                     pass
 
         avg_chars = total_chars / max(1, doc.pages)
-        # confidence scoring heuristic
+        # confidence scoring heuristic using multiple signals
+        textful_pages = sum(1 for tb in doc.text_blocks if tb.text.strip())
+        frac_text_pages = textful_pages / max(1, doc.pages)
         score = 0.0
-        if avg_chars > 200:
-            score += 0.7
-        elif avg_chars > 80:
-            score += 0.4
+        if avg_chars > 250:
+            score += 0.6
+        elif avg_chars > 100:
+            score += 0.35
+        score += min(0.3, frac_text_pages * 0.4)
         if len(doc.tables) > 0:
             score += 0.1
+        # penalize image-dominant pages (approximation)
+        # note: we didn't compute image_area here for speed; keep conservative
 
         processing_time = time.time() - start
         ledger = ExtractionLedgerEntry(

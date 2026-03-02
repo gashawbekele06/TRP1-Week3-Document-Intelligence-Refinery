@@ -1,0 +1,16 @@
+# Extraction thresholds and chunking constitution
+fast_text:
+  min_chars_per_page: 80
+  high_confidence_chars_per_page: 200
+  max_image_area_ratio: 0.5
+
+layout:
+  table_detection_pages_ratio: 0.1
+
+vision:
+  budget_cap_per_document: 5.0  # USD-equivalent token cost estimate
+
+chunking:
+  max_tokens_per_ldu: 1024
+  preserve_table_cells: true
+  keep_figure_caption_with_parent: true

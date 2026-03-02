@@ -1,0 +1,3 @@
+{"doc_id":"Annual_Report_JUNE-2018.pdf","strategy_used":"fast_text","confidence_score":0.7999999999999999,"cost_estimate":0.01,"processing_time_s":4.643578767776489,"notes":"pdfplumber extraction"}
+{"doc_id":"CBE ANNUAL REPORT 2023-24.pdf","strategy_used":"layout","confidence_score":0.85,"cost_estimate":0.2,"processing_time_s":0.0000152587890625,"notes":"layout extractor (placeholder) - integrate Docling/MinerU adapter"}
+{"doc_id":"Annual_Report_JUNE-2018.pdf","strategy_used":"layout","confidence_score":0.85,"cost_estimate":0.2,"processing_time_s":0.000019073486328125,"notes":"layout extractor (placeholder) - integrate Docling/MinerU adapter"}

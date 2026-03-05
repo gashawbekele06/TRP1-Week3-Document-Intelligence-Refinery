@@ -1,0 +1,19 @@
+{
+  "doc_id": "cd59eda738a9fdec",
+  "filename": "CBE Annual Report 2012-13.pdf",
+  "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/CBE Annual Report 2012-13.pdf",
+  "page_count": 20,
+  "origin_type": "native_digital",
+  "layout_complexity": "single_column",
+  "language_code": "en",
+  "language_confidence": 0.92,
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "fast_text_sufficient",
+  "char_density_mean": 1.524,
+  "image_ratio_mean": 0.11,
+  "table_count_total": 0,
+  "has_font_metadata": true,
+  "is_form_fillable": false,
+  "triage_version": "1.0",
+  "created_at": "2026-03-05T05:30:53.782474Z"
+}

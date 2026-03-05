@@ -1,0 +1,19 @@
+{
+  "doc_id": "9ed3101e8262d014",
+  "filename": "Consumer Price Index March 2025.pdf",
+  "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/Consumer Price Index March 2025.pdf",
+  "page_count": 12,
+  "origin_type": "native_digital",
+  "layout_complexity": "table_heavy",
+  "language_code": "en",
+  "language_confidence": 0.92,
+  "domain_hint": "general",
+  "estimated_extraction_cost": "needs_layout_model",
+  "char_density_mean": 2.955,
+  "image_ratio_mean": 0.034,
+  "table_count_total": 0,
+  "has_font_metadata": true,
+  "is_form_fillable": false,
+  "triage_version": "1.0",
+  "created_at": "2026-03-05T05:31:01.982858Z"
+}

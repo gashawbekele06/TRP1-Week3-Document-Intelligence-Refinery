@@ -19,7 +19,7 @@ from __future__ import annotations
 from typing import List, Optional, Dict, Any, Literal
 from datetime import datetime, timezone
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, AliasChoices
 
 
 class BBox(BaseModel):
@@ -149,7 +149,14 @@ class ExtractedDocument(BaseModel):
     doc_id: str = Field(..., description="Unique document identifier")
     filename: str = Field(..., description="Original filename")
     strategy_used: Literal["fast_text", "layout_aware", "vision_augmented"]
-    confidence: float = Field(..., ge=0.0, le=1.0, description="Overall reliability score")
+    confidence: float = Field(
+        ...,
+        ge=0.0,
+        le=1.0,
+        description="Overall reliability score",
+        # Back-compat: older code/tests may pass `confidence_score`.
+        validation_alias=AliasChoices("confidence", "confidence_score"),
+    )
     page_count: int = Field(..., ge=0)
 
     # Metadata fields commonly written/expected by the router and strategies

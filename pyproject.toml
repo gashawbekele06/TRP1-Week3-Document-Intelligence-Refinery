@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "chromadb>=1.5.2",
     "docling>=2.76.0",
+    "fitz>=0.0.1.dev2",
     "google-generativeai>=0.8.6",
     "httpx>=0.28.1",
     "langchain>=1.2.10",
@@ -17,6 +18,8 @@ dependencies = [
     "pdfplumber>=0.11.9",
     "pillow>=12.1.1",
     "pydantic>=2.12.5",
+    "pymupdf>=1.27.1",
+    "pytest>=9.0.2",
     "python-dotenv>=1.2.2",
     "pyyaml>=6.0.3",
     "rich>=14.3.3",

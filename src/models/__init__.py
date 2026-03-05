@@ -8,6 +8,7 @@ models here makes them discoverable to other modules (e.g. agents/).
 """
 
 from .document_profile import DocumentProfile
+from .logical_document_unit import BBoxRef, LDU
 from .extracted_document import (
 	BBox,
 	TableCell,
@@ -19,6 +20,8 @@ from .extracted_document import (
 
 __all__ = [
 	"DocumentProfile",
+	"BBoxRef",
+	"LDU",
 	"ExtractedDocument",
 	"BBox",
 	"TableCell",

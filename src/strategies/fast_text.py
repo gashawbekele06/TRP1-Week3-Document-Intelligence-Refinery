@@ -20,6 +20,7 @@ Confidence signals (justified in DOMAIN_NOTES.md):
 from __future__ import annotations
 
 import time
+import uuid
 from pathlib import Path
 from typing import List
 
@@ -135,6 +136,23 @@ class FastTextExtractor(ExtractionStrategy):
                     words = page.extract_words(extra_attrs=["fontname", "size"]) or []
                     page_text = page.extract_text() or ""
                     full_text_parts.append(page_text)
+
+                    # If extract_words returns nothing but the page has text,
+                    # create a single TextBlock for the whole page to preserve
+                    # at least one extracted unit. This makes confidence and
+                    # downstream checks more robust across PDF engines.
+                    if not words and page_text:
+                        block = TextBlock(
+                            text=page_text,
+                            bbox=None,
+                            page=page_num,
+                            font_name=None,
+                            font_size=None,
+                            is_header=False,
+                            reading_order=len(text_blocks),
+                        )
+                        text_blocks.append(block)
+                        # do not continue; we still want to attempt table/figure parsing
 
                     for word in words:
                         size = float(word.get("size", 12))
@@ -264,7 +282,7 @@ class FastTextExtractor(ExtractionStrategy):
         if doc.page_count == 0:
             return 0.0
 
-        total_chars = sum(len(b.text) for b in doc.text_blocks)
+        total_chars = sum(len(b.text) for b in doc.text_blocks) or len(getattr(doc, "full_text", "") or "")
         chars_per_page = total_chars / doc.page_count
 
         meta = doc.metadata or {}

@@ -1,0 +1,20 @@
+{
+  "doc_id": "ff738d85a36bc67b",
+  "filename": "Annual_Report_JUNE-2017.pdf",
+  "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/Annual_Report_JUNE-2017.pdf",
+  "page_count": 104,
+  "origin_type": "mixed",
+  "layout_complexity": "table_heavy",
+  "language_code": "en",
+  "language_confidence": 0.92,
+  "domain_hint": "legal",
+  "estimated_extraction_cost": "needs_layout_model",
+  "char_density_mean": 2.66,
+  "image_ratio_mean": 0.099,
+  "table_count_total": 0,
+  "has_font_metadata": true,
+  "is_form_fillable": false,
+  "triage_version": "1.7",
+  "created_at": "2026-03-05T14:32:16.447155Z",
+  "confidence": 0.92
+}

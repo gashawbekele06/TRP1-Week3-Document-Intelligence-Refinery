@@ -118,9 +118,9 @@ def test_triage_empty_pdf_returns_none_or_error(triage: TriageAgent, tmp_path: P
     Expected: either raises meaningful error or returns None / low-confidence profile
     """
     empty_pdf = tmp_path / "empty.pdf"
-    doc = fitz.open()
-    doc.save(empty_pdf)
-    doc.close()
+    # PyMuPDF does not allow saving zero-page PDFs; create a zero-byte file to
+    # simulate a corrupt/empty PDF instead.
+    empty_pdf.write_bytes(b"")
 
     profile = triage.triage(empty_pdf)
 

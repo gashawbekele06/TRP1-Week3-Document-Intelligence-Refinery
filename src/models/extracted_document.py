@@ -152,6 +152,26 @@ class ExtractedDocument(BaseModel):
     confidence: float = Field(..., ge=0.0, le=1.0, description="Overall reliability score")
     page_count: int = Field(..., ge=0)
 
+    # Metadata fields commonly written/expected by the router and strategies
+    source_path: Optional[str] = Field(
+        default=None,
+        description="Original file path (string)"
+    )
+    pages_processed: int = Field(
+        default=0,
+        ge=0,
+        description="Number of pages actually processed by the strategy"
+    )
+    extraction_time_sec: float = Field(
+        default=0.0,
+        ge=0.0,
+        description="Elapsed seconds spent extracting (alias-friendly name)"
+    )
+    error_message: Optional[str] = Field(
+        default=None,
+        description="Optional error message when extraction failed"
+    )
+
     # Core extracted content
     text_blocks: List[TextBlock] = Field(default_factory=list)
     tables: List[ExtractedTable] = Field(default_factory=list)
@@ -179,6 +199,11 @@ class ExtractedDocument(BaseModel):
     def is_successful(self) -> bool:
         """Used by escalation guard to decide if escalation is needed"""
         return self.confidence >= 0.65
+
+    @property
+    def success(self) -> bool:
+        """Convenience property used by router; True when confidence meets threshold."""
+        return self.is_successful()
 
     def summary(self) -> Dict[str, Any]:
         """Short summary for logging / debugging"""

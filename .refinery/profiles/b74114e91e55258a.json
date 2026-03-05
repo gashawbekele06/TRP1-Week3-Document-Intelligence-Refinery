@@ -1,0 +1,19 @@
+{
+  "doc_id": "b74114e91e55258a",
+  "filename": "fta_performance_survey_final_report_2022.pdf",
+  "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/fta_performance_survey_final_report_2022.pdf",
+  "page_count": 155,
+  "origin_type": "native_digital",
+  "layout_complexity": "single_column",
+  "language_code": "en",
+  "language_confidence": 0.92,
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "fast_text_sufficient",
+  "char_density_mean": 2.519,
+  "image_ratio_mean": 0.036,
+  "table_count_total": 0,
+  "has_font_metadata": true,
+  "is_form_fillable": false,
+  "triage_version": "1.0",
+  "created_at": "2026-03-05T06:56:03.918374Z"
+}

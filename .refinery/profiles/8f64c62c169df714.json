@@ -1,0 +1,19 @@
+{
+  "doc_id": "8f64c62c169df714",
+  "filename": "ETS-Annual-Report-2023_2024.pdf",
+  "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/ETS-Annual-Report-2023_2024.pdf",
+  "page_count": 92,
+  "origin_type": "mixed",
+  "layout_complexity": "figure_heavy",
+  "language_code": "en",
+  "language_confidence": 0.92,
+  "domain_hint": "financial",
+  "estimated_extraction_cost": "needs_layout_model",
+  "char_density_mean": 2.29,
+  "image_ratio_mean": 0.514,
+  "table_count_total": 0,
+  "has_font_metadata": true,
+  "is_form_fillable": false,
+  "triage_version": "1.0",
+  "created_at": "2026-03-05T06:56:08.249234Z"
+}

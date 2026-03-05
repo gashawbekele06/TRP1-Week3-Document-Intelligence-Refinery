@@ -104,3 +104,10 @@ class DocumentProfile(BaseModel):
         default_factory=lambda: datetime.now(timezone.utc),
         description="UTC timestamp when this profile was generated"
     )
+    # Overall confidence score for the triage decisions (0.0 - 1.0)
+    confidence: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=1.0,
+        description="Aggregate confidence for the triage classification"
+    )

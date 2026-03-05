@@ -9,6 +9,7 @@ models here makes them discoverable to other modules (e.g. agents/).
 
 from .document_profile import DocumentProfile
 from .logical_document_unit import BBoxRef, LDU
+from .page_index import PageIndex, Section
 from .extracted_document import (
 	BBox,
 	TableCell,
@@ -22,6 +23,8 @@ __all__ = [
 	"DocumentProfile",
 	"BBoxRef",
 	"LDU",
+	"PageIndex",
+	"Section",
 	"ExtractedDocument",
 	"BBox",
 	"TableCell",

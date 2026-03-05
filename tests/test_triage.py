@@ -55,6 +55,35 @@ def create_minimal_pdf(tmp_path: Path, text: str, filename: str = "test.pdf") ->
     return out_path
 
 
+def create_two_column_pdf(tmp_path: Path, left_text: str, right_text: str, filename: str = "two_col.pdf") -> Path:
+    """Create a single-page PDF with two text columns.
+
+    This is used to validate that the multi-column heuristic can detect
+    real 2-column layouts without relying on external corpus PDFs.
+    """
+    out_path = tmp_path / filename
+    doc = fitz.open()
+    page = doc.new_page(width=612, height=792)
+
+    # Insert line-by-line to avoid textbox overflow (which can result in very
+    # little or no extractable text, depending on fit).
+    left_lines = left_text.splitlines()
+    right_lines = right_text.splitlines()
+    n = max(len(left_lines), len(right_lines))
+    y0 = 80
+    dy = 11
+    for i in range(min(n, 55)):
+        y = y0 + i * dy
+        if i < len(left_lines):
+            page.insert_text((60, y), left_lines[i], fontsize=10)
+        if i < len(right_lines):
+            page.insert_text((330, y), right_lines[i], fontsize=10)
+
+    doc.save(out_path)
+    doc.close()
+    return out_path
+
+
 # ────────────────────────────────────────────────────────────────
 # HAPPY PATH TESTS
 # ────────────────────────────────────────────────────────────────
@@ -149,3 +178,47 @@ def test_triage_no_text_forces_mixed_or_scanned(triage: TriageAgent, tmp_path: P
 
     assert profile.origin_type in ("scanned_image", "mixed")
     assert profile.estimated_extraction_cost in ("needs_vision_model", "needs_layout_model")
+
+
+def test_triage_image_heavy_but_fonts_is_native_digital(monkeypatch, triage: TriageAgent, tmp_path: Path):
+    """Annual-report style PDFs can be image-heavy but still native-digital.
+
+    Regression test:
+    - High image ratio alone should not force origin_type to "mixed"/"scanned_image"
+      when font metadata and reasonable text density are present.
+    """
+    pdf_path = create_minimal_pdf(tmp_path, "Annual report text", "annual_like.pdf")
+
+    monkeypatch.setattr("src.agents.triage._compute_char_density", lambda _: 3.0)
+    monkeypatch.setattr("src.agents.triage._compute_image_ratio", lambda _: 0.75)
+    monkeypatch.setattr("src.agents.triage._has_font_metadata", lambda _: True)
+
+    profile = triage.triage(pdf_path)
+    assert profile.origin_type == "native_digital"
+    assert profile.estimated_extraction_cost in ("fast_text_sufficient", "needs_layout_model")
+
+
+def test_triage_detects_multi_column_layout(triage: TriageAgent, tmp_path: Path):
+    """Two-column text should be detected as multi_column and route to layout model."""
+    left = "\n".join(["Left column text"] * 120)
+    right = "\n".join(["Right column text"] * 120)
+    pdf_path = create_two_column_pdf(tmp_path, left, right, "two_column.pdf")
+
+    profile = triage.triage(pdf_path)
+
+    assert profile.origin_type == "native_digital"
+    assert profile.layout_complexity == "multi_column"
+    assert profile.estimated_extraction_cost == "needs_layout_model"
+
+
+def test_triage_scanned_even_with_fonts(monkeypatch, triage: TriageAgent, tmp_path: Path):
+    """OCR'd scans may include font metadata but should still be scanned_image."""
+    pdf_path = create_minimal_pdf(tmp_path, "scan text", "ocr_scan.pdf")
+
+    monkeypatch.setattr("src.agents.triage._compute_char_density", lambda _: 0.02)
+    monkeypatch.setattr("src.agents.triage._compute_image_ratio", lambda _: 0.90)
+    monkeypatch.setattr("src.agents.triage._has_font_metadata", lambda _: True)
+
+    profile = triage.triage(pdf_path)
+    assert profile.origin_type == "scanned_image"
+    assert profile.estimated_extraction_cost == "needs_vision_model"

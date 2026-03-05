@@ -243,7 +243,38 @@ class TriageAgent:
 
         start = time.time()
 
-        with pdfplumber.open(file_path) as pdf:
+        # pdfplumber.open may raise ValueError for completely empty/invalid PDFs
+        try:
+            pdf = pdfplumber.open(file_path)
+        except ValueError as e:
+            msg = str(e).lower()
+            if "no pages" in msg or "has no pages" in msg:
+                # Defensive handling for empty/invalid PDFs: produce a minimal profile
+                profile = DocumentProfile(
+                    doc_id=doc_id,
+                    filename=file_path.name,
+                    file_path=str(file_path),
+                    page_count=0,
+                    origin_type="mixed",
+                    layout_complexity="mixed",
+                    language_code="und",
+                    language_confidence=0.0,
+                    domain_hint="general",
+                    estimated_extraction_cost="needs_vision_model",
+                    char_density_mean=0.0,
+                    image_ratio_mean=0.0,
+                    table_count_total=0,
+                    has_font_metadata=False,
+                    is_form_fillable=False,
+                )
+
+                profile_path.write_text(profile.model_dump_json(indent=2))
+                print(f"! {file_path.name}: empty/invalid PDF — wrote minimal profile")
+                return profile
+            # re-raise unexpected ValueErrors
+            raise
+
+        with pdf:
             page_count = len(pdf.pages)
             if page_count == 0:
                 # Defensive handling for empty PDFs: produce a minimal profile

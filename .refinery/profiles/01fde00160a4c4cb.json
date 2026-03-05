@@ -3,17 +3,18 @@
   "filename": "ETS_Annual_Report_2024_2025.pdf",
   "file_path": "/home/hp/Desktop/TRP1/TRP1-Week3-Document-Intelligence-Refinery/data/ETS_Annual_Report_2024_2025.pdf",
   "page_count": 94,
-  "origin_type": "scanned_image",
+  "origin_type": "mixed",
   "layout_complexity": "figure_heavy",
   "language_code": "en",
   "language_confidence": 0.92,
   "domain_hint": "financial",
-  "estimated_extraction_cost": "needs_vision_model",
+  "estimated_extraction_cost": "needs_layout_model",
   "char_density_mean": 0.583,
   "image_ratio_mean": 0.75,
   "table_count_total": 0,
   "has_font_metadata": true,
   "is_form_fillable": false,
   "triage_version": "1.0",
-  "created_at": "2026-03-05T06:56:01.408887Z"
+  "created_at": "2026-03-05T12:55:12.549527Z",
+  "confidence": 0.92
 }

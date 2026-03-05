@@ -5,10 +5,10 @@
 # ─── Origin Type Detection ─────────────────────────────────────────────────────
 origin_detection:
   # If char_density < scanned_max AND image_ratio > scanned_min → scanned_image
-  scanned_max_char_density: 10.0        # chars/1000 pts² below this = scanned
-  digital_min_char_density: 50.0        # chars/1000 pts² above this = digital
-  scanned_min_image_ratio: 0.70         # images occupy >70% page area = scanned
-  mixed_image_ratio_lower: 0.30         # 30–70% image = mixed
+  scanned_max_char_density: 3.0        # chars/1000 pts² below this = scanned
+  digital_min_char_density: 8.0        # chars/1000 pts² above this = digital
+  scanned_min_image_ratio: 0.85         # images occupy >70% page area = scanned
+  mixed_image_ratio_lower: 0.15         # 30–70% image = mixed
 
   # Form fillable: detected by /AcroForm in PDF metadata
   form_fillable_detection: true

@@ -26,6 +26,7 @@ Cost tracking:
 from __future__ import annotations
 
 import base64
+import json
 import os
 import time
 from pathlib import Path
@@ -321,10 +322,10 @@ class VisionExtractor(ExtractionStrategy):
             figures=figures,
             full_text="\n\n".join(full_text_parts),
             section_headings=section_headings,
-            estimated_cost_usd=round(self.budget_guard.total_cost, 6),
+            estimated_cost_usd=round(self.budget_guard.total_cost_usd, 6),
             processing_time_sec=round(duration, 2),
             metadata={
-                "budget_remaining_usd": round(self.budget_guard.max_cost_usd - self.budget_guard.total_cost, 6),
+                "budget_remaining_usd": round(self.budget_guard.max_cost_usd - self.budget_guard.total_cost_usd, 6),
                 "pages_processed": self.budget_guard.pages_processed,
                 "model": self.model,
             },

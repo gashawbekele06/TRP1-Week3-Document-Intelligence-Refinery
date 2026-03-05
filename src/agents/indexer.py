@@ -29,7 +29,8 @@ class PageIndexBuilder:
     """
 
     def __init__(self, use_llm: bool = True):
-        self.use_llm = use_llm and bool(os.getenv("GEMINI_API_KEY"))
+        # Support both names; some environments use GOOGLE_API_KEY.
+        self.use_llm = use_llm and bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
         self.pageindex_dir = _PAGEINDEX_DIR
         self.pageindex_dir.mkdir(parents=True, exist_ok=True)
         self._llm_client = None
@@ -38,7 +39,7 @@ class PageIndexBuilder:
         if self._llm_client is None and self.use_llm:
             try:
                 import google.generativeai as genai
-                genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+                genai.configure(api_key=os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
                 self._llm_client = genai.GenerativeModel("gemini-1.5-flash")
             except Exception:
                 self.use_llm = False

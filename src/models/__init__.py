@@ -10,6 +10,7 @@ models here makes them discoverable to other modules (e.g. agents/).
 from .document_profile import DocumentProfile
 from .logical_document_unit import BBoxRef, LDU
 from .page_index import PageIndex, Section
+from .provenance import ProvenanceChain, ProvenanceCitation
 from .extracted_document import (
 	BBox,
 	TableCell,
@@ -25,6 +26,8 @@ __all__ = [
 	"LDU",
 	"PageIndex",
 	"Section",
+	"ProvenanceChain",
+	"ProvenanceCitation",
 	"ExtractedDocument",
 	"BBox",
 	"TableCell",
